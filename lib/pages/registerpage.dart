@@ -1,34 +1,32 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginPage extends StatefulWidget {
-  final VoidCallback showRegisterPage;
-
-  const LoginPage({Key? key, required this.showRegisterPage}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  final VoidCallback showLoginPage;
+  const RegisterPage({Key? key, required this.showLoginPage}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  // text controlers
+class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
-  Future signIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim());
-  }
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  Future signUp() async {
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim());
   }
 
   @override
@@ -43,14 +41,14 @@ class _LoginPageState extends State<LoginPage> {
               Icon(Icons.android),
               // hello again
               Text(
-                "Hello Mom😫",
+                "Hello World🌍",
                 style: GoogleFonts.bebasNeue(fontSize: 54),
               ),
               SizedBox(
                 height: 50,
               ),
               Text(
-                "Welcome Back",
+                "Register below",
                 style: TextStyle(
                   fontSize: 20,
                 ),
@@ -113,14 +111,14 @@ class _LoginPageState extends State<LoginPage> {
                 height: 20,
               ),
               GestureDetector(
-                onTap: signIn,
+                onTap: signUp,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: Container(
                     padding: EdgeInsets.all(20),
                     child: Center(
                         child: Text(
-                      "Sign In",
+                      "Sign Up",
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     )),
                     decoration: BoxDecoration(
@@ -138,11 +136,11 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Dont Have an account? ",
+                  Text("Already have an account? ",
                       style: TextStyle(fontWeight: FontWeight.bold)),
                   GestureDetector(
-                    onTap: widget.showRegisterPage,
-                    child: Text(" Register now",
+                    onTap: widget.showLoginPage,
+                    child: Text(" Login now",
                         style: TextStyle(
                             color: Colors.blue, fontWeight: FontWeight.bold)),
                   )
