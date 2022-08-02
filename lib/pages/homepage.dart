@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   Future getDocIds() async {
     await FirebaseFirestore.instance
         .collection("users")
+        .where('age', isGreaterThan: 20)
         .get()
         .then((snapshot) => snapshot.docs.forEach((document) {
               print(document.reference);
@@ -69,10 +70,14 @@ class _HomePageState extends State<HomePage> {
                       return ListView.builder(
                           itemCount: docIDs.length,
                           itemBuilder: (context, index) {
-                            return ListTile(
-                                title: GetUserNames(
-                              documentId: docIDs[index],
-                            ));
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListTile(
+                                  tileColor: Colors.grey[300],
+                                  title: GetUserNames(
+                                    documentId: docIDs[index],
+                                  )),
+                            );
                           });
                     }))
           ],

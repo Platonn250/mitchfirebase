@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation, prefer_const_constructors
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +19,12 @@ class GetUserNames extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             Map<String, dynamic> data =
                 snapshot.data!.data() as Map<String, dynamic>;
-            return Text('last name: ${data['age']}');
+            return Text('${data['first name']}' +
+                ' ' +
+                "${data['last name']}" +
+                ', ' +
+                '${data['age']}' +
+                " Years Old");
           }
           return Text('Loading');
         });
