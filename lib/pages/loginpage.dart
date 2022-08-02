@@ -1,10 +1,33 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  // text controlers
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  Future signIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim());
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +38,7 @@ class LoginPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Icon(Icons.android),
               // hello again
               Text(
                 "Hello World",
@@ -47,6 +71,7 @@ class LoginPage extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: TextField(
+                      controller: _emailController,
                       decoration: InputDecoration(
                         hintText: 'Email',
                         border: InputBorder.none,
@@ -70,8 +95,11 @@ class LoginPage extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: TextField(
+                      controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
+                        // enabledBorder: OutlineInputBorder(
+                        // borderRadius: BorderRadius.circular(12)),
                         hintText: 'Password',
                         border: InputBorder.none,
                       ),
@@ -82,19 +110,22 @@ class LoginPage extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Container(
-                  padding: EdgeInsets.all(20),
-                  child: Center(
-                      child: Text(
-                    "SignInn",
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                  )),
-                  decoration: BoxDecoration(
-                    color: Colors.deepPurple,
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.circular(12),
+              GestureDetector(
+                onTap: signIn,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Container(
+                    padding: EdgeInsets.all(20),
+                    child: Center(
+                        child: Text(
+                      "SignInn",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    )),
+                    decoration: BoxDecoration(
+                      color: Colors.deepPurple,
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
               ),
