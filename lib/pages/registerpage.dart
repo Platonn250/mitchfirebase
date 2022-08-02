@@ -15,18 +15,32 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPassword = TextEditingController();
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
   Future signUp() async {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim());
+    if (passwordMatch()) {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim());
+    } else {
+      print("pass do not match");
+    }
+  }
+
+  bool passwordMatch() {
+    if (_confirmPassword.text.trim() == _passwordController.text.trim()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -38,14 +52,14 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.android),
+              // Icon(Icons.android),
               // hello again
               Text(
                 "Hello World🌍",
                 style: GoogleFonts.bebasNeue(fontSize: 54),
               ),
               SizedBox(
-                height: 50,
+                height: 40,
               ),
               Text(
                 "Register below",
@@ -107,6 +121,36 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
+
+              SizedBox(
+                height: 20,
+              ),
+              // confirm pword textfiel
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: TextField(
+                      controller: _confirmPassword,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        // enabledBorder: OutlineInputBorder(
+                        // borderRadius: BorderRadius.circular(12)),
+                        hintText: 'Password',
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // button
               SizedBox(
                 height: 20,
               ),

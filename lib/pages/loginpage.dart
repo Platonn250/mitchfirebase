@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mitchfirebase/pages/forgotpwpage.dart';
 
 class LoginPage extends StatefulWidget {
   final VoidCallback showRegisterPage;
@@ -40,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.android),
+              // Icon(Icons.android),
               // hello again
               Text(
                 "Hello Mom😫",
@@ -110,7 +111,20 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 15,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return ForgotPasswordPage();
+                  }));
+                },
+                child: Text("Forgot Password",
+                    style: TextStyle(
+                        color: Colors.blue, fontWeight: FontWeight.bold)),
+              ),
+              SizedBox(
+                height: 15,
               ),
               GestureDetector(
                 onTap: signIn,
