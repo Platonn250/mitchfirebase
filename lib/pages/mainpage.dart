@@ -11,13 +11,13 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
+        builder: ((context, snapshot) {
           if (snapshot.hasData) {
             return HomePage();
           } else {
             return LoginPage();
           }
-        },
+        }),
       ),
     );
   }

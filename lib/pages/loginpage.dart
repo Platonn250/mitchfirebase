@@ -138,9 +138,11 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Text("Dont Have an account? ",
                       style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(" Register now",
-                      style: TextStyle(
-                          color: Colors.blue, fontWeight: FontWeight.bold))
+                  GestureDetector(
+                    child: Text(" Register now",
+                        style: TextStyle(
+                            color: Colors.blue, fontWeight: FontWeight.bold)),
+                  )
                 ],
               )
 
