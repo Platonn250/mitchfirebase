@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -268,6 +268,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         style: TextStyle(color: Colors.white, fontSize: 18),
                       )),
                       decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: [
+                          Colors.green,
+                          Colors.red,
+                        ]),
                         color: Colors.deepPurple,
                         border: Border.all(color: Colors.white),
                         borderRadius: BorderRadius.circular(12),

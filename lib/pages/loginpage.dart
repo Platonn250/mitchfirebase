@@ -22,15 +22,17 @@ class _LoginPageState extends State<LoginPage> {
   Future signIn() async {
     // show loading circle
     showDialog(
-        context: context,
-        builder: (context) {
-          return Center(child: CircularProgressIndicator());
-        });
+      context: context,
+      builder: (context) {
+        return Center(child: CircularProgressIndicator());
+      },
+    );
+    Navigator.of(context).pop();
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim());
 
-    Navigator.of(context).pop();
+    // Navigator.of(context).pop();
   }
 
   @override
@@ -60,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 50,
                 ),
                 Text(
-                  "Welcome Back",
+                  "Login In and Say to Mom👌",
                   style: TextStyle(
                     fontSize: 20,
                   ),
@@ -148,7 +150,11 @@ class _LoginPageState extends State<LoginPage> {
                         style: TextStyle(color: Colors.white, fontSize: 18),
                       )),
                       decoration: BoxDecoration(
-                        color: Colors.deepPurple,
+                        gradient: LinearGradient(colors: [
+                          Colors.green,
+                          Colors.red,
+                        ]),
+                        // color: Colors.deepPurple,
                         border: Border.all(color: Colors.white),
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -162,11 +168,11 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Dont Have an account? ",
+                    Text("Dont Have an account🤔? ",
                         style: TextStyle(fontWeight: FontWeight.bold)),
                     GestureDetector(
                       onTap: widget.showRegisterPage,
-                      child: Text(" Register now",
+                      child: Text(" Register now👍",
                           style: TextStyle(
                               color: Colors.blue, fontWeight: FontWeight.bold)),
                     )

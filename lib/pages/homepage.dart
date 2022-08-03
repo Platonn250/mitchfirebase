@@ -21,17 +21,28 @@ class _HomePageState extends State<HomePage> {
 
   // documents from database
   List<String> docIDs = [];
+  List<String> nonDuplicate = [];
 
   // getting documents from database
   Future getDocIds() async {
     await FirebaseFirestore.instance
         .collection("users")
-        .where('age', isGreaterThan: 20)
+        // .where('age', isGreaterThan: 20)
         .get()
-        .then((snapshot) => snapshot.docs.forEach((document) {
+        .then(
+          (snapshot) => snapshot.docs.forEach(
+            (document) {
               print(document.reference);
               docIDs.add(document.reference.id);
-            }));
+              for (final i in docIDs) {
+                if (!nonDuplicate.contains(i)) {
+                  nonDuplicate.add(i);
+                }
+              }
+              ;
+            },
+          ),
+        );
   }
 
   // @override
@@ -55,33 +66,41 @@ class _HomePageState extends State<HomePage> {
             )
           ]),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // MaterialButton(
-            //   onPressed: logOut,
-            //   color: Colors.deepPurple,
-            //   child: Text("LogOut"),
-            // ),
-            Expanded(
-                child: FutureBuilder(
-                    future: getDocIds(),
-                    builder: (context, snapshot) {
-                      return ListView.builder(
-                          itemCount: docIDs.length,
+        child: StreamBuilder<Object>(
+            stream: null,
+            builder: (context, snapshot) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // MaterialButton(
+                  //   onPressed: logOut,
+                  //   color: Colors.deepPurple,
+                  //   child: Text("LogOut"),
+                  // ),
+                  Expanded(
+                    child: FutureBuilder(
+                      future: getDocIds(),
+                      builder: (context, snapshot) {
+                        return ListView.builder(
+                          itemCount: nonDuplicate.length,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: ListTile(
-                                  tileColor: Colors.grey[300],
-                                  title: GetUserNames(
-                                    documentId: docIDs[index],
-                                  )),
+                                tileColor: Colors.grey[300],
+                                title: GetUserNames(
+                                  documentId: nonDuplicate[index],
+                                ),
+                              ),
                             );
-                          });
-                    }))
-          ],
-        ),
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
+            }),
       ),
     );
   }
